@@ -43,6 +43,8 @@ const game = (function () {
     let cell = e.target;
     let cellIndex = +cell.dataset.index;
 
+    if (gameBoard.board[cellIndex] != undefined) return;
+
     gameBoard.board[cellIndex] = player.getCurrentSign();
     player.switchPlayer();
     gameBoard.renderBoard();
