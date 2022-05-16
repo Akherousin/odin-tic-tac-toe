@@ -1,0 +1,21 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.board {
+  width: 50%;
+  margin: 0 auto;
+  display: grid;
+  justify-items: center;
+
+  grid-template-columns: repeat(3, 1fr);
+  gap: 5px;
+}
+
+.cell {
+  width: 100%;
+  aspect-ratio: 1;
+  background-color: #999;
+}
