@@ -19,3 +19,42 @@
   aspect-ratio: 1;
   background-color: #999;
 }
+
+.game-over {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.btn-restart {
+  border: none;
+  padding: 1.5rem 3rem;
+  font-size: 1.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.btn-restart:hover {
+  background-color: rgb(44, 44, 44);
+  color: white;
+  outline: 2px solid white;
+}
+
+.message {
+  font-size: 4rem;
+  color: white;
+}
+
+.hidden {
+  display: none;
+}

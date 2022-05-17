@@ -32,6 +32,10 @@ const player = (function () {
     return currentPlayer ? "Player 1" : "Player 2";
   };
 
+  const getNotCurrentPlayer = () => {
+    return currentPlayer ? "Player 2" : "Player 1";
+  };
+
   const switchPlayer = () => {
     currentPlayer = !currentPlayer;
 
@@ -106,9 +110,7 @@ const game = (function () {
   };
 
   const isGameOver = (index) => {
-    gameBoard.board.includes(undefined) && !isWinner(index)
-      ? console.log("game is on")
-      : console.log("game over");
+    return gameBoard.board.includes(undefined) && !isWinner(index);
   };
 
   const fillEmptyCell = (e) => {
@@ -121,6 +123,7 @@ const game = (function () {
     gameBoard.board[cellIndex] = player.getCurrentSign();
 
     isGameOver(cellIndex);
+
     player.switchPlayer();
     gameBoard.renderBoard();
   };
