@@ -1,12 +1,12 @@
 const gameBoard = (function () {
   const board = new Array(9);
 
-  const renderBoard = () => {
+  function renderBoard() {
     board.forEach((item, index) => {
       let boardCell = document.querySelector(`[data-index='${index}']`);
       boardCell.innerText = item;
     });
-  };
+  }
 
   return {
     board,
@@ -20,33 +20,33 @@ const player = (function () {
   const player2Sign = "O";
   let sign = player1Sign;
 
-  const setSign = () => {
+  function setSign() {
     currentPlayer ? (sign = player1Sign) : (sign = player2Sign);
-  };
+  }
 
-  const getCurrentSign = () => {
+  function getCurrentSign() {
     return sign;
-  };
+  }
 
-  const getCurrentPlayer = () => {
+  function getCurrentPlayer() {
     return currentPlayer ? "Player 1" : "Player 2";
-  };
+  }
 
-  const getNotCurrentPlayer = () => {
+  function getNotCurrentPlayer() {
     return currentPlayer ? "Player 2" : "Player 1";
-  };
+  }
 
-  const switchPlayer = () => {
+  function switchPlayer() {
     currentPlayer = !currentPlayer;
 
     setSign();
-  };
+  }
 
   return { getCurrentSign, getCurrentPlayer, switchPlayer };
 })();
 
 const game = (function () {
-  const checkTheRow = (row) => {
+  function checkTheRow(row) {
     const [index1, index2, index3] = row;
 
     if (
@@ -58,9 +58,9 @@ const game = (function () {
       );
       return true;
     }
-  };
+  }
 
-  const isHorizontalWinner = (index) => {
+  function isHorizontalWinner(index) {
     const horizontals = [
       [0, 1, 2],
       [3, 4, 5],
@@ -71,9 +71,9 @@ const game = (function () {
     });
 
     return checkTheRow(rowToCheck);
-  };
+  }
 
-  const isVerticalWinner = (index) => {
+  function isVerticalWinner(index) {
     const verticals = [
       [0, 3, 6],
       [1, 4, 7],
@@ -84,9 +84,9 @@ const game = (function () {
     });
 
     return checkTheRow(rowToCheck);
-  };
+  }
 
-  const isDiagonalWinner = (index) => {
+  function isDiagonalWinner(index) {
     const diagonals = [
       [0, 4, 8],
       [2, 4, 6],
@@ -99,21 +99,21 @@ const game = (function () {
     });
 
     if (rowToCheck !== undefined) return checkTheRow(rowToCheck);
-  };
+  }
 
-  const isWinner = (index) => {
+  function isWinner(index) {
     return (
       isHorizontalWinner(index) ||
       isVerticalWinner(index) ||
       isDiagonalWinner(index)
     );
-  };
+  }
 
-  const isGameOver = (index) => {
+  function isGameOver(index) {
     return gameBoard.board.includes(undefined) && !isWinner(index);
-  };
+  }
 
-  const fillEmptyCell = (e) => {
+  function fillEmptyCell(e) {
     if (!e.target.classList.contains("cell")) return;
     let cell = e.target;
     let cellIndex = +cell.dataset.index;
@@ -126,7 +126,7 @@ const game = (function () {
 
     player.switchPlayer();
     gameBoard.renderBoard();
-  };
+  }
 
   return { fillEmptyCell };
 })();
