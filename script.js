@@ -19,6 +19,7 @@ const player = (function () {
   const player1Sign = "X";
   const player2Sign = "O";
   let sign = player1Sign;
+  let winner;
 
   function setSign() {
     currentPlayer ? (sign = player1Sign) : (sign = player2Sign);
@@ -32,17 +33,27 @@ const player = (function () {
     return currentPlayer ? "Player 1" : "Player 2";
   }
 
-  function getNotCurrentPlayer() {
-    return currentPlayer ? "Player 2" : "Player 1";
-  }
-
   function switchPlayer() {
     currentPlayer = !currentPlayer;
 
     setSign();
   }
 
-  return { getCurrentSign, getCurrentPlayer, switchPlayer };
+  function setWinner(winningPlayer) {
+    winner = winningPlayer;
+  }
+
+  function getWinner() {
+    return winner;
+  }
+
+  return {
+    getCurrentSign,
+    getCurrentPlayer,
+    switchPlayer,
+    setWinner,
+    getWinner,
+  };
 })();
 
 const game = (function () {
@@ -102,15 +113,31 @@ const game = (function () {
   }
 
   function isWinner(index) {
-    return (
+    theWinnerIsFound =
       isHorizontalWinner(index) ||
       isVerticalWinner(index) ||
-      isDiagonalWinner(index)
-    );
+      isDiagonalWinner(index);
+
+    if (theWinnerIsFound) {
+      player.setWinner(player.getCurrentPlayer());
+
+      return true;
+    }
   }
 
   function isGameOver(index) {
-    return gameBoard.board.includes(undefined) && !isWinner(index);
+    return isWinner(index) || !gameBoard.board.includes(undefined);
+  }
+
+  function handleGameOver() {
+    let popUpEl = document.querySelector(".game-over");
+    let messageEl = document.querySelector(".message");
+
+    messageEl.innerText = player.getWinner()
+      ? `${player.getWinner()} has won!`
+      : "It is a tie!";
+
+    popUpEl.classList.toggle("hidden");
   }
 
   function fillEmptyCell(e) {
@@ -122,7 +149,9 @@ const game = (function () {
 
     gameBoard.board[cellIndex] = player.getCurrentSign();
 
-    isGameOver(cellIndex);
+    if (isGameOver(cellIndex)) {
+      handleGameOver();
+    }
 
     player.switchPlayer();
     gameBoard.renderBoard();
