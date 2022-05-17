@@ -1,10 +1,13 @@
 const gameBoard = (function () {
-  const board = new Array(9);
+  let board = new Array(9);
 
   function renderBoard() {
     board.forEach((item, index) => {
       let boardCell = document.querySelector(`[data-index='${index}']`);
-      boardCell.innerText = item;
+
+      item !== undefined
+        ? (boardCell.innerText = item)
+        : (boardCell.innerText = "");
     });
   }
 
@@ -19,7 +22,7 @@ const player = (function () {
   const player1Sign = "X";
   const player2Sign = "O";
   let sign = player1Sign;
-  let winner;
+  let winner = null;
 
   function setSign() {
     currentPlayer ? (sign = player1Sign) : (sign = player2Sign);
@@ -39,6 +42,10 @@ const player = (function () {
     setSign();
   }
 
+  function setCurrentPlayer() {
+    currentPlayer = true;
+  }
+
   function setWinner(winningPlayer) {
     winner = winningPlayer;
   }
@@ -50,6 +57,7 @@ const player = (function () {
   return {
     getCurrentSign,
     getCurrentPlayer,
+    setCurrentPlayer,
     switchPlayer,
     setWinner,
     getWinner,
@@ -64,9 +72,6 @@ const game = (function () {
       gameBoard.board[index1] === gameBoard.board[index2] &&
       gameBoard.board[index1] === gameBoard.board[index3]
     ) {
-      console.log(
-        `${player.getCurrentSign()} - current sign, ${player.getCurrentPlayer()} - current player`
-      );
       return true;
     }
   }
@@ -142,6 +147,7 @@ const game = (function () {
 
   function fillEmptyCell(e) {
     if (!e.target.classList.contains("cell")) return;
+
     let cell = e.target;
     let cellIndex = +cell.dataset.index;
 
@@ -157,7 +163,18 @@ const game = (function () {
     gameBoard.renderBoard();
   }
 
-  return { fillEmptyCell };
+  function handleRestart() {
+    let popUpEl = document.querySelector(".game-over");
+    popUpEl.classList.toggle("hidden");
+
+    gameBoard.board = gameBoard.board.fill(undefined);
+    gameBoard.renderBoard();
+  }
+
+  return { fillEmptyCell, handleRestart };
 })();
 
 document.addEventListener("click", game.fillEmptyCell);
+document
+  .querySelector(".btn-restart")
+  .addEventListener("click", game.handleRestart);
