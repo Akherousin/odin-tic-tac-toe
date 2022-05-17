@@ -23,6 +23,8 @@ const player = (function () {
   const player2Sign = "O";
   let sign = player1Sign;
   let winner = null;
+  let player1Score = 0;
+  let player2Score = 0;
 
   function setSign() {
     currentPlayer ? (sign = player1Sign) : (sign = player2Sign);
@@ -169,6 +171,7 @@ const game = (function () {
 
     gameBoard.board = gameBoard.board.fill(undefined);
     gameBoard.renderBoard();
+    player.setWinner(null);
   }
 
   return { fillEmptyCell, handleRestart };
