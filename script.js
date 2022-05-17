@@ -56,6 +56,14 @@ const player = (function () {
     return winner;
   }
 
+  function setScore() {
+    getCurrentPlayer() === "Player 1" ? player1Score++ : player2Score++;
+  }
+
+  function getScore() {
+    return `${player1Score}:${player2Score}`;
+  }
+
   return {
     getCurrentSign,
     getCurrentPlayer,
@@ -63,6 +71,8 @@ const player = (function () {
     switchPlayer,
     setWinner,
     getWinner,
+    setScore,
+    getScore,
   };
 })();
 
@@ -127,6 +137,7 @@ const game = (function () {
 
     if (theWinnerIsFound) {
       player.setWinner(player.getCurrentPlayer());
+      player.setScore();
 
       return true;
     }
@@ -139,6 +150,9 @@ const game = (function () {
   function handleGameOver() {
     let popUpEl = document.querySelector(".game-over");
     let messageEl = document.querySelector(".message");
+    let scoreEl = document.querySelector(".score");
+
+    scoreEl.innerText = `Score is ${player.getScore()}`;
 
     messageEl.innerText = player.getWinner()
       ? `${player.getWinner()} has won!`

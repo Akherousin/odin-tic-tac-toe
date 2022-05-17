@@ -58,3 +58,9 @@
 .hidden {
   display: none;
 }
+
+.score {
+  color: white;
+  font-weight: bold;
+  font-size: 2rem;
+}
